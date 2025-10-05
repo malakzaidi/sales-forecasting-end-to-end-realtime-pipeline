@@ -27,8 +27,9 @@ services:
       - minio
     entrypoint: >
       /bin/sh -c "
+      sleep 10;
       mc alias set myminio http://minio:9000 minioadmin minioadmin;
-      mc mb myadmin/mlflow-artifacts || true;
+      mc mb myminio/mlflow-artifacts || true;
       mc anonymous set public myminio/mlflow-artifacts;
       exit 0;
       "
