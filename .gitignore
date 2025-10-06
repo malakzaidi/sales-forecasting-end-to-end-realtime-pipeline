@@ -10,3 +10,28 @@ webserver_config.py
 airflow.cfg
 airflow.db
 
+# Environnements virtuels Python
+mypipeline/
+venv/
+env/
+ENV/
+*.pyc
+*.pyo
+*.pyd
+
+# Data files
+data/
+*.csv
+*.parquet
+*.pkl
+*.h5
+*.joblib
+*.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+Thumbs.db
