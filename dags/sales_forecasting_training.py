@@ -164,6 +164,19 @@ def sales_forecast_training():
         logger.info(f"Final training data shape:{daily_sales.shape}")
         logger.info(f"Columns:{daily_sales.columns.tolist}]")
 
+        trainer = ModelTrainer()
+
+        store_daily_sales = (
+            daily_sales.groupby (["date", "store_id"])
+            .agg({"sales": "sum",
+                  "has_promotion": "mean",
+                  "quantity_sold": "sum",
+                  "profit": "sum",
+                  "customer_traffic": "first",
+                  "is_holiday": "first"})
+        )
+        store_daily_sales['data'] = pd.to_datetime(store_daily_sales['date'])
+
 
 
     extract_result = extract_data_task()
