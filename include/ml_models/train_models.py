@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import yaml
 import pandas as pd
 from sklearn import preprocessing
@@ -104,6 +106,8 @@ class ModelTrainer:
         self.feature_cols=feature_cols
 
         return X_train_scaled, X_val_scaled, X_test_scaled , y_train,y_val,y_test
+
+
 
 
 
