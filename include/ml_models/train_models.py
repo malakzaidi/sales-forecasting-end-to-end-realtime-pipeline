@@ -1,10 +1,10 @@
 from datetime import datetime
+from email import message_from_string
 
 import yaml
 import pandas as pd
-from sklearn import preprocessing
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 from utils.mlflow_utils import MlflowManager
 from data_validation.validators import DataValidator
@@ -113,6 +113,15 @@ class ModelTrainer:
 
         return X_train_scaled, X_val_scaled, X_test_scaled , y_train,y_val,y_test
 
+    def calculate_metrics(self, y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
+        metrics = {
+            'rmse': np.sqrt(mean_squared_error(y_true, y_pred)),
+            'mae': mean_absolute_error(y_true, y_pred),
+            'mape': np.mean(np.abs((y_true - y_pred) / y_true)) * 100,
+            'r2': r2_score(y_true, y_pred)
+        }
+        return metrics
+
     def train_xgboost(self,X_train:pd.DataFrame, y_train:pd.Series,
                       X_val:pd.DataFrame, y_val:pd.Series, use_optuna:bool= True):
         logger.info(f"Training XGBoost")
@@ -156,11 +165,7 @@ class ModelTrainer:
         self.models['xgboost'] = model
         return model
 
-
-
-
-
-
+    def train_lightgbm(self,X_train:pd.DataFrame, y_train:pd.Series,):
 
     def train_all_models(self,train_df: pd.DataFrame, val_df: pd.DataFrame
                          , test_df: pd.DataFrame,target_col: str = "sales",
